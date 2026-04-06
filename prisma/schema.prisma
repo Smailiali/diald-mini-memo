@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Memo {
+  id                 String   @id @default(cuid())
+  address            String
+  overallScore       Int
+  locationScore      Int
+  demographicScore   Int
+  marketScore        Int
+  riskScore          Int
+  executiveSummary   String   @db.Text
+  locationChapter    String   @db.Text
+  demographicChapter String   @db.Text
+  marketChapter      String   @db.Text
+  swotChapter        String   @db.Text
+  scoreChapter       String   @db.Text
+  createdAt          DateTime @default(now())
+}

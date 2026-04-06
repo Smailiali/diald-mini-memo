@@ -18,10 +18,10 @@ interface PipelineProgressProps {
   onReset: () => void;
 }
 
-function Spinner() {
+function SpinnerIcon() {
   return (
     <svg
-      className="animate-spin h-5 w-5 text-accent-blue"
+      className="animate-spin h-4 w-4 text-accent-blue"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -43,19 +43,17 @@ function Spinner() {
   );
 }
 
-function Checkmark() {
+function CheckmarkIcon() {
   return (
     <svg
-      className="h-5 w-5 text-green-500"
+      className="h-4 w-4 text-green-600"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 20 20"
-      fill="currentColor"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2.5}
     >
-      <path
-        fillRule="evenodd"
-        d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"
-        clipRule="evenodd"
-      />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
     </svg>
   );
 }
@@ -145,29 +143,33 @@ export default function PipelineProgress({
   }, [address, router]);
 
   return (
-    <div className="flex flex-col items-center gap-8 w-full max-w-md">
+    <div className="flex flex-col items-center gap-8 w-full max-w-lg">
+      {/* Header */}
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-navy font-sans">
-          Generating Memo
-        </h2>
-        <p className="mt-1 text-gray-500 text-sm truncate max-w-sm">
-          {address}
+        <p className="text-xs uppercase tracking-widest text-gray-400 font-sans mb-1">
+          Analyzing Property
+        </p>
+        <h2 className="text-2xl font-bold text-navy font-sans">{address}</h2>
+        <p className="text-sm text-gray-400 mt-1 font-sans">
+          This usually takes 30-60 seconds
         </p>
       </div>
 
       {error ? (
-        <div className="w-full bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-          <p className="text-red-700 text-sm font-medium">Error</p>
-          <p className="text-red-600 text-sm mt-1">{error}</p>
+        <div className="w-full bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+          <p className="text-red-700 text-sm font-semibold font-sans mb-1">
+            Something went wrong
+          </p>
+          <p className="text-red-600 text-sm font-sans">{error}</p>
           <button
             onClick={onReset}
-            className="mt-3 text-sm text-accent-blue hover:underline"
+            className="mt-4 text-sm text-accent-blue hover:underline font-sans"
           >
             Try again
           </button>
         </div>
       ) : (
-        <div className="w-full bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+        <div className="w-full bg-white rounded-xl border border-gray-200 overflow-hidden">
           {STEPS.map((step) => {
             const isComplete = completedSteps.has(step.key);
             const isActive = !isComplete && step.key === activeStepKey;
@@ -176,19 +178,26 @@ export default function PipelineProgress({
             return (
               <div
                 key={step.key}
-                className="flex items-center gap-4 px-5 py-4"
+                className="flex items-center gap-4 px-6 py-4 border-b border-gray-50 last:border-0"
               >
-                <div className="w-6 flex items-center justify-center flex-shrink-0">
-                  {isComplete ? (
-                    <Checkmark />
-                  ) : isActive ? (
-                    <Spinner />
-                  ) : (
-                    <div className="h-2 w-2 rounded-full bg-gray-300" />
-                  )}
-                </div>
+                {/* Step indicator */}
+                {isComplete ? (
+                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                    <CheckmarkIcon />
+                  </div>
+                ) : isActive ? (
+                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <SpinnerIcon />
+                  </div>
+                ) : (
+                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
+                    <div className="w-2 h-2 rounded-full bg-gray-300" />
+                  </div>
+                )}
+
+                {/* Step label */}
                 <span
-                  className={`text-sm font-medium ${
+                  className={`text-sm font-medium font-sans flex-1 ${
                     isComplete
                       ? "text-gray-400 line-through"
                       : isActive
@@ -200,14 +209,16 @@ export default function PipelineProgress({
                 >
                   {step.label}
                 </span>
+
+                {/* Status badge */}
                 {isComplete && (
-                  <span className="ml-auto text-xs text-green-500 font-medium">
+                  <span className="text-xs text-green-600 font-medium font-sans">
                     Done
                   </span>
                 )}
                 {isActive && (
-                  <span className="ml-auto text-xs text-accent-blue font-medium">
-                    In progress
+                  <span className="text-xs text-accent-blue font-medium font-sans">
+                    In progress...
                   </span>
                 )}
               </div>
@@ -217,8 +228,8 @@ export default function PipelineProgress({
       )}
 
       {!error && (
-        <p className="text-xs text-gray-400 text-center">
-          This takes about 30 seconds. Please keep this tab open.
+        <p className="text-xs text-gray-400 text-center font-sans">
+          Keep this tab open while the analysis runs.
         </p>
       )}
     </div>

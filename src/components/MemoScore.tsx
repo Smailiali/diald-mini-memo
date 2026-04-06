@@ -97,14 +97,16 @@ function SubScoreBar({ label, score }: SubScoreBarProps) {
   return (
     <div className="flex flex-col gap-1">
       <div className="flex justify-between items-center">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider font-sans">
+        <span className="text-sm font-medium text-gray-600 font-sans">
           {label}
         </span>
-        <span className={`text-xs font-bold px-2 py-0.5 rounded-full font-sans ${badge}`}>
+        <span
+          className={`text-xs font-bold px-2 py-0.5 rounded-full font-sans ${badge}`}
+        >
           {score}/25
         </span>
       </div>
-      <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+      <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all"
           style={{ width: `${pct}%`, backgroundColor: color }}
@@ -122,9 +124,9 @@ export default function MemoScore({
   riskScore,
 }: MemoScoreProps) {
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6 mb-8 flex flex-col sm:flex-row items-center gap-8">
+    <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6 flex flex-col sm:flex-row items-center gap-8">
       <ScoreGauge score={overallScore} />
-      <div className="flex-1 w-full flex flex-col gap-4">
+      <div className="flex-1 w-full flex flex-col gap-5">
         <SubScoreBar label="Location" score={locationScore} />
         <SubScoreBar label="Demographics" score={demographicScore} />
         <SubScoreBar label="Market" score={marketScore} />

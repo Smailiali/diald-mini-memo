@@ -22,8 +22,11 @@ export default function MemoHistoryList({ memos }: MemoHistoryListProps) {
   if (memos.length === 0) {
     return (
       <div className="text-center py-16">
-        <p className="text-gray-500 font-sans text-sm">
-          No memos generated yet.{" "}
+        <p className="text-5xl mb-4">🏢</p>
+        <p className="font-bold text-navy text-lg font-sans mb-2">
+          No memos yet
+        </p>
+        <p className="text-gray-500 text-sm font-sans">
           <Link href="/" className="text-accent-blue hover:underline">
             Generate your first one.
           </Link>
@@ -33,7 +36,7 @@ export default function MemoHistoryList({ memos }: MemoHistoryListProps) {
   }
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100 overflow-hidden">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {memos.map((memo) => {
         const date = new Date(memo.createdAt).toLocaleDateString("en-US", {
           year: "numeric",
@@ -45,30 +48,21 @@ export default function MemoHistoryList({ memos }: MemoHistoryListProps) {
           <Link
             key={memo.id}
             href={`/memo/${memo.id}`}
-            className="flex items-center justify-between px-6 py-4 hover:bg-light-gray transition-colors duration-100 group"
+            className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md hover:border-accent-blue transition-all duration-150 flex flex-col gap-3"
           >
-            <div className="flex flex-col gap-0.5 min-w-0">
-              <span className="text-sm font-medium text-navy font-sans truncate group-hover:text-accent-blue transition-colors">
-                {memo.address}
-              </span>
-              <span className="text-xs text-gray-400 font-sans">{date}</span>
-            </div>
-            <div className="flex items-center gap-3 flex-shrink-0 ml-4">
+            <div className="flex justify-between items-start gap-2">
               <span
-                className={`text-xs font-bold px-2.5 py-1 rounded-full font-sans ${scoreBadge(memo.overallScore)}`}
+                className={`text-xs font-bold px-2.5 py-1 rounded-full font-sans flex-shrink-0 ${scoreBadge(memo.overallScore)}`}
               >
                 {memo.overallScore}/100
               </span>
-              <svg
-                className="w-4 h-4 text-gray-300 group-hover:text-accent-blue transition-colors"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
             </div>
+            <p className="text-sm font-semibold text-navy font-sans leading-snug">
+              {memo.address}
+            </p>
+            <p className="text-xs text-gray-400 font-sans mt-auto pt-3 border-t border-gray-100">
+              {date}
+            </p>
           </Link>
         );
       })}

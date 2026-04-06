@@ -7,62 +7,64 @@ interface SwotGridProps {
 interface QuadrantProps {
   title: string;
   items: SwotItem[];
-  bgColor: string;
-  titleColor: string;
+  headerColor: string;
 }
 
-function Quadrant({ title, items, bgColor, titleColor }: QuadrantProps) {
+function Quadrant({ title, items, headerColor }: QuadrantProps) {
   return (
-    <div className={`${bgColor} rounded-lg p-5`}>
-      <h3 className={`text-sm font-bold uppercase tracking-wider ${titleColor} mb-3 font-sans`}>
-        {title}
-      </h3>
-      <ul className="flex flex-col gap-3">
-        {items.map((item, i) => (
-          <li key={i}>
-            <p className="font-semibold text-gray-800 text-sm font-serif">
-              {item.title}
-            </p>
-            <p className="text-gray-600 text-sm font-serif leading-relaxed mt-0.5">
-              {item.description}
-            </p>
-          </li>
-        ))}
-      </ul>
+    <div className="border border-gray-200 rounded-xl overflow-hidden">
+      <div className={`${headerColor} px-4 py-3`}>
+        <h3 className="text-xs font-bold uppercase tracking-widest text-white font-sans">
+          {title}
+        </h3>
+      </div>
+      <div className="p-4 bg-white">
+        <ul className="flex flex-col gap-3">
+          {items.map((item, i) => (
+            <li key={i} className="last:mb-0 mb-3">
+              <p className="text-sm font-bold text-gray-800 font-sans">
+                {item.title}
+              </p>
+              <p className="text-sm text-gray-600 font-serif leading-relaxed mt-0.5">
+                {item.description}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
 
 export default function SwotGrid({ swot }: SwotGridProps) {
   return (
-    <section className="mb-8">
-      <h2 className="text-lg font-bold text-navy font-sans uppercase tracking-widest mb-4 pb-2 border-b border-gray-200">
-        SWOT Analysis
-      </h2>
+    <section className="mb-8 last:mb-0">
+      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+        <div className="w-1 h-5 bg-accent-blue rounded-full flex-shrink-0" />
+        <h2 className="text-base font-bold text-navy font-sans uppercase tracking-wide">
+          SWOT Analysis
+        </h2>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Quadrant
           title="Strengths"
           items={swot.strengths}
-          bgColor="bg-green-50"
-          titleColor="text-green-700"
+          headerColor="bg-green-500"
         />
         <Quadrant
           title="Weaknesses"
           items={swot.weaknesses}
-          bgColor="bg-yellow-50"
-          titleColor="text-yellow-700"
+          headerColor="bg-amber-500"
         />
         <Quadrant
           title="Opportunities"
           items={swot.opportunities}
-          bgColor="bg-blue-50"
-          titleColor="text-blue-700"
+          headerColor="bg-blue-500"
         />
         <Quadrant
           title="Threats"
           items={swot.threats}
-          bgColor="bg-red-50"
-          titleColor="text-red-700"
+          headerColor="bg-red-500"
         />
       </div>
     </section>

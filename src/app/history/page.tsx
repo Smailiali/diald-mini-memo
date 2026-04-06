@@ -14,9 +14,9 @@ export default async function HistoryPage() {
   });
 
   return (
-    <main className="min-h-screen bg-light-gray px-4 py-12">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
+    <main className="min-h-screen bg-light-gray px-4 py-16">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center justify-between mb-10">
           <div>
             <h1 className="text-2xl font-bold text-navy font-sans">
               Past Memos

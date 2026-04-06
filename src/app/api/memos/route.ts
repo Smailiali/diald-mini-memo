@@ -1,4 +1,15 @@
-// Step 7: GET /api/memos — fetch all memos
-export async function GET() {
-  return new Response(null, { status: 501 });
+import { prisma } from "@/lib/prisma";
+
+export async function GET(): Promise<Response> {
+  const memos = await prisma.memo.findMany({
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      address: true,
+      overallScore: true,
+      createdAt: true,
+    },
+  });
+
+  return Response.json(memos);
 }

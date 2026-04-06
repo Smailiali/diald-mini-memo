@@ -23,7 +23,7 @@ export type PipelineMemoData = {
   scoreChapter: string;
 };
 
-type StepData =
+export type StepData =
   | LocationChapter
   | DemographicChapter
   | MarketChapter

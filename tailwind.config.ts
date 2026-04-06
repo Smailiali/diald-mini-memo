@@ -14,7 +14,7 @@ const config: Config = {
         "accent-blue": "#2563eb",
       },
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
+        sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
         serif: ["Georgia", "ui-serif", "serif"],
       },
     },

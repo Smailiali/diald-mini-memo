@@ -109,7 +109,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Live Demo
 
-Coming soon.
+[https://diald-mini-memo.vercel.app](https://diald-mini-memo.vercel.app)
 
 ---
 

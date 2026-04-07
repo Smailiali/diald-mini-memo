@@ -38,35 +38,27 @@ function Quadrant({ title, items, headerColor }: QuadrantProps) {
 
 export default function SwotGrid({ swot }: SwotGridProps) {
   return (
-    <section className="mb-8 last:mb-0">
-      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
-        <div className="w-1 h-5 bg-accent-blue rounded-full flex-shrink-0" />
-        <h2 className="text-base font-bold text-navy font-sans uppercase tracking-wide">
-          SWOT Analysis
-        </h2>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Quadrant
-          title="Strengths"
-          items={swot.strengths}
-          headerColor="bg-green-500"
-        />
-        <Quadrant
-          title="Weaknesses"
-          items={swot.weaknesses}
-          headerColor="bg-amber-500"
-        />
-        <Quadrant
-          title="Opportunities"
-          items={swot.opportunities}
-          headerColor="bg-blue-500"
-        />
-        <Quadrant
-          title="Threats"
-          items={swot.threats}
-          headerColor="bg-red-500"
-        />
-      </div>
-    </section>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <Quadrant
+        title="Strengths"
+        items={swot.strengths}
+        headerColor="bg-green-500"
+      />
+      <Quadrant
+        title="Weaknesses"
+        items={swot.weaknesses}
+        headerColor="bg-amber-500"
+      />
+      <Quadrant
+        title="Opportunities"
+        items={swot.opportunities}
+        headerColor="bg-blue-500"
+      />
+      <Quadrant
+        title="Threats"
+        items={swot.threats}
+        headerColor="bg-red-500"
+      />
+    </div>
   );
 }

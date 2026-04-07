@@ -5,19 +5,21 @@ function toLabel(key: string): string {
 }
 
 interface ChapterSectionProps {
-  title: string;
+  title?: string;
   data: Record<string, string | string[]>;
 }
 
 export default function ChapterSection({ title, data }: ChapterSectionProps) {
   return (
     <section className="mb-8 last:mb-0">
-      <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
-        <div className="w-1 h-5 bg-accent-blue rounded-full flex-shrink-0" />
-        <h2 className="text-base font-bold text-navy font-sans uppercase tracking-wide">
-          {title}
-        </h2>
-      </div>
+      {title ? (
+        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-100">
+          <div className="w-1 h-5 bg-accent-blue rounded-full flex-shrink-0" />
+          <h2 className="text-base font-bold text-navy font-sans uppercase tracking-wide">
+            {title}
+          </h2>
+        </div>
+      ) : null}
       <div className="flex flex-col gap-5">
         {Object.entries(data).map(([key, value]) => (
           <div key={key}>

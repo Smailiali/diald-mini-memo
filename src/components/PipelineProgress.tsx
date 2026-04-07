@@ -21,7 +21,7 @@ interface PipelineProgressProps {
 function SpinnerIcon() {
   return (
     <svg
-      className="animate-spin h-4 w-4 text-accent-blue"
+      className="animate-spin w-4 h-4 text-white"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -46,7 +46,7 @@ function SpinnerIcon() {
 function CheckmarkIcon() {
   return (
     <svg
-      className="h-4 w-4 text-green-600"
+      className="w-4 h-4 text-white"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -54,6 +54,22 @@ function CheckmarkIcon() {
       strokeWidth={2.5}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+    </svg>
+  );
+}
+
+function InfoIcon() {
+  return (
+    <svg
+      className="w-4 h-4 text-gray-400"
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M12 16v-4M12 8h.01" />
     </svg>
   );
 }
@@ -143,95 +159,135 @@ export default function PipelineProgress({
   }, [address, router]);
 
   return (
-    <div className="flex flex-col items-center gap-8 w-full max-w-lg">
-      {/* Header */}
-      <div className="text-center">
-        <p className="text-xs uppercase tracking-widest text-gray-400 font-sans mb-1">
-          Analyzing Property
-        </p>
-        <h2 className="text-2xl font-bold text-navy font-sans">{address}</h2>
-        <p className="text-sm text-gray-400 mt-1 font-sans">
-          This usually takes 30-60 seconds
-        </p>
+    <div className="min-h-screen flex flex-col bg-light-gray">
+      {/* Navy header banner */}
+      <div className="bg-navy w-full py-12 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-xs uppercase tracking-widest text-blue-300 font-sans mb-3">
+            Analyzing Property
+          </p>
+          <h2 className="text-2xl md:text-3xl font-bold text-white font-sans">
+            {address}
+          </h2>
+          <p className="text-sm text-blue-200 mt-2 font-sans">
+            This usually takes 30-60 seconds
+          </p>
+          {/* Progress bar */}
+          <div className="mt-6 h-1 bg-white/20 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-accent-blue rounded-full transition-all duration-500"
+              style={{ width: `${(completedSteps.size / STEPS.length) * 100}%` }}
+            />
+          </div>
+        </div>
       </div>
 
-      {error ? (
-        <div className="w-full bg-red-50 border border-red-200 rounded-xl p-6 text-center">
-          <p className="text-red-700 text-sm font-semibold font-sans mb-1">
-            Something went wrong
-          </p>
-          <p className="text-red-600 text-sm font-sans">{error}</p>
-          <button
-            onClick={onReset}
-            className="mt-4 text-sm text-accent-blue hover:underline font-sans"
-          >
-            Try again
-          </button>
-        </div>
-      ) : (
-        <div className="w-full bg-white rounded-xl border border-gray-200 overflow-hidden">
-          {STEPS.map((step) => {
-            const isComplete = completedSteps.has(step.key);
-            const isActive = !isComplete && step.key === activeStepKey;
-            const isPending = !isComplete && !isActive;
-
-            return (
-              <div
-                key={step.key}
-                className="flex items-center gap-4 px-6 py-4 border-b border-gray-50 last:border-0"
+      {/* Content area */}
+      <div className="flex-1 flex items-start justify-center px-4 py-10">
+        <div className="w-full max-w-2xl flex flex-col gap-4">
+          {error ? (
+            <div className="bg-white rounded-2xl shadow-lg border border-red-100 p-6 text-center">
+              <p className="text-red-700 text-sm font-semibold font-sans mb-1">
+                Something went wrong
+              </p>
+              <p className="text-red-600 text-sm font-sans">{error}</p>
+              <button
+                onClick={onReset}
+                className="mt-4 text-sm text-accent-blue hover:underline font-sans"
               >
-                {/* Step indicator */}
-                {isComplete ? (
-                  <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                    <CheckmarkIcon />
-                  </div>
-                ) : isActive ? (
-                  <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                    <SpinnerIcon />
-                  </div>
-                ) : (
-                  <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center flex-shrink-0">
-                    <div className="w-2 h-2 rounded-full bg-gray-300" />
-                  </div>
-                )}
-
-                {/* Step label */}
-                <span
-                  className={`text-sm font-medium font-sans flex-1 ${
-                    isComplete
-                      ? "text-gray-400 line-through"
-                      : isActive
-                      ? "text-navy"
-                      : isPending
-                      ? "text-gray-400"
-                      : "text-gray-400"
-                  }`}
-                >
-                  {step.label}
-                </span>
-
-                {/* Status badge */}
-                {isComplete && (
-                  <span className="text-xs text-green-600 font-medium font-sans">
-                    Done
+                Try again
+              </button>
+            </div>
+          ) : (
+            <>
+              {/* Steps card */}
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                {/* Card header */}
+                <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                  <span className="text-sm font-semibold text-navy font-sans">
+                    Analysis Pipeline
                   </span>
-                )}
-                {isActive && (
-                  <span className="text-xs text-accent-blue font-medium font-sans">
-                    In progress...
+                  <span className="text-sm text-gray-400 font-sans">
+                    {completedSteps.size} of {STEPS.length} complete
                   </span>
-                )}
+                </div>
+
+                {/* Steps list */}
+                <div className="relative">
+                  {/* Vertical connecting line */}
+                  <div className="absolute left-[2.875rem] top-0 bottom-0 w-0.5 bg-gray-100 z-0" />
+
+                  {STEPS.map((step) => {
+                    const isComplete = completedSteps.has(step.key);
+                    const isActive = !isComplete && step.key === activeStepKey;
+
+                    return (
+                      <div
+                        key={step.key}
+                        className="relative z-10 flex items-center gap-4 px-6 py-4"
+                      >
+                        {/* Step indicator */}
+                        {isComplete ? (
+                          <div className="w-9 h-9 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0 transition-all duration-300">
+                            <CheckmarkIcon />
+                          </div>
+                        ) : isActive ? (
+                          <div className="w-9 h-9 rounded-full bg-accent-blue flex items-center justify-center flex-shrink-0 animate-pulse">
+                            <SpinnerIcon />
+                          </div>
+                        ) : (
+                          <div className="w-9 h-9 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center flex-shrink-0">
+                            <div className="w-2 h-2 rounded-full bg-gray-300" />
+                          </div>
+                        )}
+
+                        {/* Step label */}
+                        <span
+                          className={`flex-1 text-sm font-sans ${
+                            isComplete
+                              ? "text-gray-400 line-through"
+                              : isActive
+                              ? "font-semibold text-navy"
+                              : "text-gray-400"
+                          }`}
+                        >
+                          {step.label}
+                        </span>
+
+                        {/* Status badge */}
+                        {isComplete && (
+                          <span className="px-2.5 py-1 bg-green-50 text-green-600 text-xs font-medium rounded-full font-sans">
+                            Done
+                          </span>
+                        )}
+                        {isActive && (
+                          <span className="px-2.5 py-1 bg-blue-50 text-accent-blue text-xs font-medium rounded-full font-sans flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-accent-blue animate-pulse" />
+                            In progress
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-            );
-          })}
-        </div>
-      )}
 
-      {!error && (
-        <p className="text-xs text-gray-400 text-center font-sans">
-          Keep this tab open while the analysis runs.
+              {/* Footer note */}
+              <div className="flex items-center justify-center gap-2 text-xs text-gray-400 font-sans">
+                <InfoIcon />
+                <span>Keep this tab open while the analysis runs</span>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Page footer */}
+      <div className="py-6 text-center">
+        <p className="text-xs text-gray-400 font-sans">
+          Generated by AI. This is not financial advice.
         </p>
-      )}
+      </div>
     </div>
   );
 }
